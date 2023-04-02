@@ -7,6 +7,8 @@ O script instala o NVM, Docker, Docker-Compose e o NestJS.
 ```
 cd smartranking
 . install.sh
+
+npm i -g @nestjs/cli
 ```
 
 ## Dependências Instaladas no Projeto
