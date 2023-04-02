@@ -20,7 +20,7 @@ export class AppController {
         })
     }
 
-    @Post('categoria')
+    @Post('categorias')
     @UsePipes(ValidationPipe)
     async criarCategoria(
         @Body() criarCategoriaDto: CriarCategoriaDto
