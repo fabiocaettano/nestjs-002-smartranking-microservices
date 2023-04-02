@@ -15,7 +15,9 @@ MONGO_USER=user
 MONGO_PASSWORD=password
 ```
 *** virtualHost neste projeto é o smartranking
+
 *** nomedoBanco neste projeto é o smartranking
+
 *** o db utilizado na chave MONGO_URI é o serviço do docker-compose
 
 
