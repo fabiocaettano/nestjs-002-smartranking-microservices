@@ -11,11 +11,12 @@ async function bootstrap() {
       transport: Transport.RMQ,
       options: {
         urls: [process.env.RABBITMQ_URI],
-        queue: 'admin-backend'
+        queue: 'admin-backend',
+        queueOptions: {
+          durable: false,
+        },
       },
-  });  
-
-  await app.listen().then(() => logger.log('Microservice is listening'));
-  
+  });    
+  await app.listen().then(() => logger.log('Microservice is listening'));  
 }
 bootstrap();
