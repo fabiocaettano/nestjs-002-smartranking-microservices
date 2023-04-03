@@ -9,11 +9,11 @@ export class AppController {
 
   logger = new Logger(AppController.name);
 
-  @EventPattern('criar-categoria')
+  @EventPattern('criar_categoria')
   async criarCategoria(
     @Payload() categoria: Categoria
   ){
-    this.logger.log(`categoira: ${JSON.stringify(categoria)}`);
-  }
-  
+    this.logger.log(`categoria: ${JSON.stringify(categoria)}`);
+    this.appService.criarCategoria(categoria);
+  }  
 }
