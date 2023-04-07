@@ -7,7 +7,7 @@ export class LogginInterceptor implements NestInterceptor {
         console.log('Antes ...')
         const newDate = Date.now()
         return next.handle().pipe(
-            tap(() => console.log('Depois ... ${Date.now() - newDate } ms')),
+            tap(() => console.log(`Depois ... ${Date.now() - newDate } ms`)),
         )        
     }
 }
