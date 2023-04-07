@@ -1,7 +1,8 @@
-import { NestInterceptor, ExecutionContext , CallHandler} from "@nestjs/common";
+import { NestInterceptor, ExecutionContext , CallHandler, Injectable} from "@nestjs/common";
 import { Observable } from "rxjs";
 import { tap } from "rxjs";
 
+@Injectable()
 export class LogginInterceptor implements NestInterceptor {
     intercept(context: ExecutionContext, next: CallHandler): Observable<any> {
         console.log('Antes ...')
