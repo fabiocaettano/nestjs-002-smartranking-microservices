@@ -2,10 +2,12 @@ import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
 import { AllExcpetionsFilter } from './filters/http-exception-filter';
 import * as momentTimezone from 'moment-timezone';
+import { LogginInterceptor } from './interceptors/logging.interceptors';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
   
+  app.useGlobalInterceptors(new LogginInterceptor());
   app.useGlobalFilters(new AllExcpetionsFilter());
 
   Date.prototype.toJSON = function(): any {
