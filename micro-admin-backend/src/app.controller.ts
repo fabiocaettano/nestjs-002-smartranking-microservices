@@ -2,6 +2,9 @@ import { Controller, Logger } from '@nestjs/common';
 import { AppService } from './app.service';
 import { Ctx, EventPattern, MessagePattern, Payload, RmqContext } from '@nestjs/microservices';
 import { Categoria } from './interfaces/categorias/categoria.interface';
+import { AmqpConnectionManagerClass } from 'amqp-connection-manager';
+
+const ackErrors: string[] = ['E1100'];
 
 @Controller()
 export class AppController {
@@ -16,17 +19,71 @@ export class AppController {
     const channel = context.getChannelRef()
     const originalMsg = context.getMessage()
 
-    this.logger.log(`categoria: ${JSON.stringify(categoria)}`);
-    this.appService.criarCategoria(categoria);
-    await channel.ack(originalMsg);
+    try{      
+      await this.appService.criarCategoria(categoria);
+      await channel.ack(originalMsg);
+    }catch(error){
+      this.logger.log(`categoria: ${JSON.stringify(categoria)}`);
+      
+      /*ackErrors.map( async ackError => {
+        if(error.message.includes(ackError)){
+          await channel.ack(originalMsg)
+        }
+      })*/
+
+      const filterAckError = ackErrors.filter(
+        ackError => error.message.includes(ackError))
+
+      if (filterAckError){
+        await channel.ack(originalMsg);
+      }      
+    }
   }  
 
   @MessagePattern('consultar-categorias')
-  async consultarCategorias(@Payload() _id: string){
-    if (_id){
-      return await this.appService.consultarCategoriaPeloId(_id);
-    }else{
-      return await this.appService.consultarTodasCategorias();
-    }
+  async consultarCategorias(@Ctx() context: RmqContext){
+    const channel = context.getChannelRef();
+    const originalMsg =  context.getMessage();
+    try{      
+        return await this.appService.consultarTodasCategorias();      
+    }finally{
+      await channel.ack(originalMsg);
+    }    
+  }
+
+  @MessagePattern('consultar-categoria-pelo-id')
+  async consultarCategoria(@Payload() categoria: string, @Ctx() context: RmqContext){
+    const channel = context.getChannelRef();
+    const originalMsg =  context.getMessage();
+
+    console.log(categoria)
+
+    try{      
+        return await this.appService.consultarCategoriaPeloId(categoria);      
+    }finally{
+      await channel.ack(originalMsg);
+    }    
+  }
+
+  @EventPattern('atualizar-categoria')
+  async atualizarCategoria(
+    @Payload() data: any, @Ctx() context: RmqContext){
+      const channel = context.getChannelRef()
+      const originalMsg = context.getMessage()
+      this.logger.log(`data: ${JSON.stringify(data)}`);
+      try{
+        const categoria: string = data.categoria;
+        const atualizar_categoria: Categoria = data.atualizar_categoria;
+        await this.appService.atualizarCategoria(categoria, atualizar_categoria);
+        await channel.ack(originalMsg);
+      }catch(error){
+        const filterAckError = ackErrors.filter(
+          ackError => error.message.includes(ackError))
+  
+        if (filterAckError){
+          await channel.ack(originalMsg);
+        } 
+      }
+
   }
 }
