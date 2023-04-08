@@ -1,5 +1,5 @@
 import { ArrayMinSize, IsArray, IsNotEmpty, IsString } from "class-validator";
-import { Eventos } from "src/entity/interfaces/eventos.interface";
+import { Eventos } from "src/entity/eventos/interfaces/eventos.interface";
 
 export class CriarCategoriaDto{
 
