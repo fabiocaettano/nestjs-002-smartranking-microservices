@@ -25,21 +25,26 @@ export class AppController {
 
     @Post('categorias')
     @UsePipes(ValidationPipe)
-    async criarCategoria(
+    criarCategoria(
         @Body() criarCategoriaDto: CriarCategoriaDto
     ){        
         this.clientAdminBackend.emit('criar_categoria', criarCategoriaDto);
     }
 
     @Get('categorias')
-    consultaCategorias(@Query('id_categoria') _id : string): Observable<any>{
-        return this.clientAdminBackend.send('consultar-categorias', _id ? _id: '');        
+    consultaCategorias(@Query('categoria') categoria : string): Observable<any>{        
+        return this.clientAdminBackend.send('consultar-categorias','');       
+    }        
+
+    @Get('categorias/:categoria')
+    consultaCategoriaPeloId(@Param('categoria') categoria : string): Observable<any>{        
+        return this.clientAdminBackend.send('consultar-categoria-pelo-id',categoria);       
     }
 
-    @Put('categorias/:_id')
+    @Put('categorias/:categoria')
     @UsePipes(ValidationPipe)
     atualizarCategoria(@Body() atualizarCategoriaDto: AtualizarCategoriaDto,
-    @Param('_id') _id : string){
-        this.clientAdminBackend.emit('atualizar-categoria',{id: _id, categoria: atualizarCategoriaDto});
+    @Param('categoria') categoria : string){
+        this.clientAdminBackend.emit('atualizar-categoria',{categoria: categoria, atualizar_categoria: atualizarCategoriaDto});
     }
 }
