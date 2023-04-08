@@ -25,5 +25,5 @@ resource "digitalocean_droplet" "labs" {
 }
 
 data "digitalocean_ssh_key" "minha_chave" {
-  name = "kubedev"
+  name = var.chave_ssh
 }

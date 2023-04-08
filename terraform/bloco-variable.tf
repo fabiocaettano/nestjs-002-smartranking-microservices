@@ -1,3 +1,8 @@
+variable "chave_ssh" {
+  default     = ""
+  description = "Chave SSH"
+}
+
 variable "token" {
   default     = ""
   description = "Token de acesso a Digital Ocena"
