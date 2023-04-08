@@ -1,10 +1,12 @@
 import { Module } from '@nestjs/common';
-import { CategoriaController } from './entity/categorias/categorias.controller';
-import { JogadorController } from './entity/jogadores/jogadores.controller';
+import { CategoriasModule } from './entity/categorias/categoria.module';
+import { ProxyModule } from './proxy/proxy.module';
+import { ProxyClient } from './proxy/proxy-client';
+import { JogadoresModule } from './entity/jogadores/jogador.module';
 
 @Module({
-  imports: [],
-  controllers: [CategoriaController, JogadorController],
-  providers: [],
+  imports: [CategoriasModule, JogadoresModule, ProxyModule],
+  controllers: [],
+  providers: [ProxyClient],
 })
 export class AppModule {}

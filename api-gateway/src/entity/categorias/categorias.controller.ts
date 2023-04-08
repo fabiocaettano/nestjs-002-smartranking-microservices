@@ -1,17 +1,21 @@
 import { Body, Controller , Get, Logger, Param, Post, Put, Query, UsePipes, ValidationPipe } from '@nestjs/common';
-import { ClientProxy, ClientProxyFactory, Transport } from '@nestjs/microservices';
 import { CriarCategoriaDto } from './dtos/criar-categoria-dto';
 import { Observable } from 'rxjs';
 import { AtualizarCategoriaDto } from './dtos/atualizar-categoria-dto';
+import { ProxyClient } from 'src/proxy/proxy-client';
 require('dotenv').config({ path: '.env' })
 
 
 @Controller('api/v1')
 export class CategoriaController {  
 
-    private logger = new Logger(CategoriaController.name);
+    private logger = new Logger(CategoriaController.name);    
 
-    private clientAdminBackend: ClientProxy;    
+    constructor(private proxyClient: ProxyClient){}
+
+    private clientAdminBackend = this.proxyClient.getClientProxyAdminBackendInstance();
+
+    /*private clientAdminBackend: ClientProxy;    
 
     constructor(){
         this.clientAdminBackend = ClientProxyFactory.create({
@@ -21,13 +25,13 @@ export class CategoriaController {
                 queue: 'admin-backend',
             }
         })
-    }
+    }*/
 
     @Post('categorias')
     @UsePipes(ValidationPipe)
     criarCategoria(
         @Body() criarCategoriaDto: CriarCategoriaDto
-    ){        
+    ){  
         this.clientAdminBackend.emit('criar_categoria', criarCategoriaDto);
     }
 
