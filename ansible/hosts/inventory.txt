@@ -1,0 +1,28 @@
+# Install NVM e NODE
+[group_01]
+159.223.190.11
+142.93.6.1
+159.89.95.143
+
+# Install Docker, Docker-Compose and run Git Clone
+[group_02]
+159.89.91.132
+159.223.190.11
+142.93.6.1
+159.89.95.143
+
+# Run RabbitMq
+[group_03]
+159.89.91.132
+
+# Api Gateway
+[group_04]
+159.223.190.11
+
+# Micro Admin Backend
+[group_05]
+142.93.6.1
+
+# Desafios
+[group_06]
+159.89.95.143
