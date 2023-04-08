@@ -7,9 +7,9 @@ require('dotenv').config({ path: '.env' })
 
 
 @Controller('api/v1')
-export class AppController {  
+export class CategoriaController {  
 
-    private logger = new Logger(AppController.name);
+    private logger = new Logger(CategoriaController.name);
 
     private clientAdminBackend: ClientProxy;    
 

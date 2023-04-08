@@ -1,5 +1,5 @@
 import { ArrayMinSize, IsArray, IsOptional, IsString } from "class-validator";
-import { Eventos } from "../entity/eventos/interfaces/eventos.interface";
+import { Eventos } from "../../eventos/interfaces/eventos.interface";
 
 export class AtualizarCategoriaDto {
 
