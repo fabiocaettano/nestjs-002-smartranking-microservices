@@ -1,16 +1,15 @@
 import { Controller, Logger } from '@nestjs/common';
-import { AppService } from './app.service';
+import { CategoriasService } from './categorias.service';
 import { Ctx, EventPattern, MessagePattern, Payload, RmqContext } from '@nestjs/microservices';
-import { Categoria } from './interfaces/categorias/categoria.interface';
-import { AmqpConnectionManagerClass } from 'amqp-connection-manager';
+import { Categoria } from './interfaces/categoria.interface';
 
 const ackErrors: string[] = ['E1100'];
 
 @Controller()
-export class AppController {
-  constructor(private readonly appService: AppService) {}
+export class CategoriasController {
+  constructor(private readonly appService: CategoriasService) {}
 
-  logger = new Logger(AppController.name);
+  logger = new Logger(CategoriasController.name);
 
   @EventPattern('criar_categoria')
   async criarCategoria(
@@ -84,6 +83,5 @@ export class AppController {
           await channel.ack(originalMsg);
         } 
       }
-
   }
 }
