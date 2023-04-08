@@ -64,9 +64,9 @@ export class JogadoresController {
     const originalMsg = context.getMessage()
     try {
         console.log(`data: ${JSON.stringify(data)}`)
-        const _id: string = data._id
+        const _id: string = data._id        
         const jogador: Jogador = data.jogador
-        await this.jogadoresService.atualizarJogador(_id, jogador)
+        await this.jogadoresService.atualizarJogador(_id, jogador);
         await channel.ack(originalMsg)
     } catch(error) {
         const filterAckError = ackErrors.filter(
