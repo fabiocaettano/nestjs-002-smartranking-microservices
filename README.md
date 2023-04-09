@@ -6,11 +6,11 @@
 
 ## Provisionar Máquinas Virtuais com TerraForm
 
-1. Preencher o arquivo bloco-variable.tf:
+Preencher o arquivo bloco-variable.tf:
 
-1.1 Com o token gerado no site da digital ocean;
+Com o token gerado no site da digital ocean;
 
-1.2 Com a chave ssh.
+Com a chave ssh.
 
 
 2. O comando abaixo irá provisionar 05 máquinas virtuais.
@@ -50,7 +50,7 @@ labs-4:
 Na máquina local gerar chave ssh:
 
 ```
-ssh-keygen -t id_key_ansible - C "informe um valor"
+ssh-keygen -t rsa -b 4096 -C "your_email@example.com"
 Enter passphrase:
 Enter sama passprahse again:
 ```
