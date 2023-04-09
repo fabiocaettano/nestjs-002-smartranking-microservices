@@ -1,6 +1,6 @@
 import { Injectable, Logger } from '@nestjs/common';
 import { S3 , PutObjectCommand, DeleteObjectCommand } from '@aws-sdk/client-s3';
-require('dotenv').config({ path: '.env' })
+//require('dotenv').config({ path: '.env' })
 
 @Injectable()
 export class AwsService {    

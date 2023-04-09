@@ -1,10 +1,16 @@
-import { IsNotEmpty } from 'class-validator';
+import { IsNotEmpty, IsOptional } from 'class-validator';
 
 export class AtualizarJogadorDto{
 
     @IsNotEmpty()
-    readonly telefoneCelular: string;    
+    telefoneCelular?: string;    
 
     @IsNotEmpty()
-    readonly nome: string;
+    nome?: string;
+
+    @IsOptional()
+    categoria?: string;
+
+    @IsOptional()
+    urlFotoJogador?: string;
 }
