@@ -1,5 +1,6 @@
 import { Injectable, Logger } from '@nestjs/common';
 import { S3 , PutObjectCommand, DeleteObjectCommand } from '@aws-sdk/client-s3';
+import { ConfigService } from '@nestjs/config';
 //require('dotenv').config({ path: '.env' })
 
 @Injectable()
@@ -7,25 +8,38 @@ export class AwsService {
 
     private logger =  new Logger(AwsService.name);
 
+    constructor (
+        private configService: ConfigService
+    ){}
+
+    private AWS_ENDPOINT = this.configService.get<string>('AWS_ENDPOINT');
+    private AWS_URL = this.configService.get<string>('AWS_URL');
+    private AWS_BUCKET = this.configService.get<string>('AWS_BUCKET');
+    private AWS_REGION = this.configService.get<string>('AWS_REGION');
+    private AWS_SPACES_KEY = this.configService.get<string>('AWS_SPACES_KEY');
+    private AWS_SPACES_SECRET = this.configService.get<string>('AWS_SPACES_SECRET');
+
     private s3Client = new S3({
         forcePathStyle: false,
-        endpoint: process.env.endpoint,
-        region: "us-east-1",
+        endpoint: this.AWS_ENDPOINT,
+        region: this.AWS_REGION,
         credentials: {
-            accessKeyId: process.env.SPACES_KEY,
-            secretAccessKey: process.env.SPACES_SECRET
+            accessKeyId: this.AWS_SPACES_KEY,
+            secretAccessKey: this.AWS_SPACES_SECRET
         }
     });     
 
 
     public async upload(file: any, _id: string): Promise<any>{
+
+        
         
         const urlKey = _id.concat('.').concat(file.originalname.split('.')[1]);
-        const urlOrigin = "https://smartranking.nyc3.digitaloceanspaces.com/";
+        const urlOrigin = this.AWS_URL;;
         const url = urlOrigin.concat(urlKey);
 
         const bucketParams = {
-            Bucket: 'smartranking',
+            Bucket: this.AWS_BUCKET,
             Key: urlKey,
             Body: file.buffer, 
             ACL: "public-read"                      
