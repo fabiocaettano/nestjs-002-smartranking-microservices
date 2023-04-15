@@ -139,10 +139,11 @@ No arquivo de inventário informaos os IP's gerados pelo TerraForm.
 No arquivo **hosts >> inventory.txt** os IP´s foram dividios em 06 grupos.
 
 
-| Grupo | Hosts     | Total de Ips | Instalação/Executar                      | 
-|-------|-----------|--------------|------------------------------------------|
-|   1   | group_01  |      3       | NVM e o do NODE                          |  
-|   2   | group_02  |      4       | Docker, Docker-Compose e Git Clone       |
+| Grupo | Hosts     | Total de Ips | Nome das Máquinas      | Instalação/Executar         | 
+|-------|-----------|--------------|------------------------|-----------------------------|
+|   1   | group_01  |      3       | labs-1, labs-2 e lab-3 |NVM e o do NODE              |  
+|   2   | group_02  |      4       | labs-0, labs-1, labs-2 | Docker, Docker-Compose      |
+|       |           |              | e labs-3               | e Git Clone                 |
 
 
 
