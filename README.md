@@ -142,7 +142,6 @@ No arquivo **hosts >> inventory.txt** os IP´s foram dividios em 06 grupos.
 | Grupo | Hosts     | Total de Ips | Instalação/Executar                      | 
 |-------|-----------|--------------|------------------------------------------|
 |   1   | group_01  |      3       | NVM e o do NODE                          |  
-|-------|-----------|--------------|------------------------------------------|
 |   2   | group_02  |      4       | Docker, Docker-Compose e Git Clone       |
 |-------|-----------|--------------|------------------------------------------|
 
