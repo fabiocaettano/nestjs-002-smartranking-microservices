@@ -53,11 +53,23 @@ Acessar o site da Digital Ocean em "Settings >> Aba Security >> Add SSH Key" , n
 
 No arquivo **terraform >> bloco-variable.tf**, informar o token e a chave ssh-key.
 
+``` yaml
+variable "chave_ssh" {
+  default     = ""
+  description = "Chave SSH"
+}
+
+variable "token" {
+  default     = ""
+  description = "Token de acesso a Digital Ocena"
+}
+```
+
 ### 2.3.2 Número de máquinas virtuais
 
-No arquivo main.tf, na chave digitialocean_droplet em count informar o total de máquinas desejadas.
+No arquivo **terraform >> main.tf**, na chave **digitialocean_droplet** em **count** informar o total de máquinas desejadas.
 
-Neste projeto será utilizado 5 máquinas virtuais.
+Neste projeto serão utilizados 5 máquinas virtuais.
 
 ``` yaml
 resource "digitalocean_droplet" "labs" {
@@ -85,7 +97,7 @@ Configuração:
 
 ### 2.3.4 Criar as máquinas virtuais
 
-O comando abaixo irá provisionar máquinas virtuais.
+Para criar as máquinas virtuais executar os seguintes comandos:
 
 ```
 $ terraform init
@@ -95,15 +107,15 @@ $ terraform apply
 
 ### 2.3.5 Utilização das máquinas:
 
-labs-0: Executar o RabbitMq para o serviço de mensageria;
+- labs-0: Executar o RabbitMq para o serviço de mensageria;
 
-labs-1: Executará o projeto api-gateway.
+- labs-1: Executará o projeto api-gateway.
 
-labs-2: Executar o microserviço micro-admin-backend;
+- labs-2: Executar o microserviço micro-admin-backend;
 
-labs-3: Executar o microserviço desafios;
+- labs-3: Executar o microserviço desafios;
 
-labs-4: Executar o microserviço ranking.
+- labs-4: Executar o microserviço ranking.
 
 
 ## 3.0 Conexão SSH
@@ -132,6 +144,7 @@ Enter passphrase for key '/home/fabio/.ssh/id_rsa':
 
 exit
 ```
+
 Repetir o processo para labs-1, labs-2, labs-3 e labs-4.
 
 
@@ -158,7 +171,7 @@ No arquivo **hosts >> inventory.txt** os IP´s foram dividios em 06 grupos. Conf
 
 ### 4.1.2 Playbook
 
-Executar playbook:
+Executar playbook na máquina local:
 
 ```
 ssh-agent bash
@@ -171,9 +184,113 @@ ansible-playbook ~/caminho/playbook/set-up-envinroment.yml -i ~/caminho/hosts/in
 
 ## 5.0 RabbitMq
 
-1. Para gerenciar o RabbitMq acessar a página http://ip-labs-0:15672/ com as credencias que constam no arquivo docker-compose.
+- Para gerenciar o RabbitMq acessar a página http://ip-labs-0:15672/ com as credencias que constam no arquivo docker-compose.
 
-2. Na página do RabbiMq criar um Virtual Hosts na opção:
+- Na página do RabbiMq criar um Virtual Hosts na opção:
  "Admin >> Virtual Hosts >> Preencher o campo "Name" com o valor "smartranking" >> Add virtual host".
 
 
+## 6.O NestJs
+
+Instalar Nest js globalmente, nas máquinas labs-1, labs-2, labs-3 e labs-4.
+
+```
+npm i -g @nestjs/cli
+```
+
+## 7.0 Dependências
+
+- Acessar labs-1 e acessar o diretório do microserviço:
+
+```
+ssh root@ip-labs-1
+
+cd api-gateway
+
+npm install
+```
+
+- Acessar labs-2 e acessar o diretório do microserviço:
+
+```
+ssh root@ip-labs-2
+
+cd micro-admin-backend
+
+npm install
+```
+
+
+- Acessar labs-3 e acessar o diretório do microserviço:
+
+```
+ssh root@ip-labs-2
+
+cd desafios
+
+npm install
+```
+
+### 8.0 Configurar VS Code
+
+Utilizar o recurso **Remote Explorer**.
+
+Em *Remote >> SSH >> Open SSH Config File*, selecione *.ssh/config*.
+
+Configure o arquivo:
+
+``` vscode
+Host rabbitmq
+  HostName 134.209.66.243
+  User root
+
+Host api-gateway
+   HostName 134.209.70.112
+   User root 
+
+Host micro-admin-backend
+   HostName 134.209.76.177 
+   User root 
+
+Host desafios
+   HostName 68.183.29.71    
+   User root
+```
+
+Fechar o arquivo e salvar.
+
+Clicar em *Remote e Refresh*.
+
+Selecione uma máquina virtual para acessar.
+
+
+### 9.0 Variáveis de Ambiente
+
+- MicroServiço api-gateway:
+
+``` env
+RABBITMQ_URI=amqp://user:password@ip-labs-0/smartranking
+AWS_ENDPOINT=https://nyc3.digitaloceanspaces.com/
+AWS_URL=https://smartranking.nyc3.digitaloceanspaces.com/
+AWS_BUCKET=smartranking
+AWS_REGION=us-east-1
+AWS_SPACES_KEY=**************
+AWS_SPACES_SECRET=***********************
+```
+
+- MicroServiço micro-admin-backend:
+
+```
+RABBITMQ_URI=amqp://user@password@ip-labs-0:5672/smartranking
+MONGO_URI=mongodb://ip-labs-2:27017/smartranking
+MONGO_USER=********
+MONGO_PASSWORD=********
+```
+
+## 10.0 NestJS
+
+Iniciar o serviço nas máquinas labs-1, labs-2, labs-3 e labs-4.
+
+```
+npm run start:dev
+```
