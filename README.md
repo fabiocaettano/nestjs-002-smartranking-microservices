@@ -6,27 +6,31 @@
 
 ## 2.0 Provisionar Máquinas Virtuais
 
-Utilizei a solução TerraForm para provisionar 04 máquina no serviço da Digital Ocean.
+Utilizei a solução TerraForm para provisionar os droplets (máquinas virtuais) no serviço da Digital Ocean.
 
-Necessário gerar um token e uma chave SSK KEY no site da **Digital Ocean**.
+Como requisito para provisionar os droplets é necessário gerar **token** e **chave SSK KEY** no site da **Digital Ocean**.
 
 
-#### 2.1.1 Token
+### 2.1.1 Token
 
-O token fia na opção "API >> Aba Token >> Utilizar a opção "Generated Token".
+Para gerar o token utilizar a opção *API >> Aba Token >> Utilizar a opção "Generated Token"* , no site da Digital Ocean.
 
-#### 2.2.1 SSH KEY
 
-Abra o terminal na máquina local:
+### 2.2.1 SSH KEY
+
+Abra o terminal na máquina local.
+
+Gerar a chave:
 
 ```
 ssh-keygen
 ```
 
-No prompet digite o nome da chave:
+No prompt digite o nome da chave:
 
 ```
-Generating public/private rsa key pair. Enter file in which to save the key (/Users/USER/.ssh/id_rsa): NOME_DA_CHAVE
+Generating public/private rsa key pair. 
+Enter file in which to save the key (/Users/USER/.ssh/id_rsa): NOME_DA_CHAVE
 ```
 
 É altamente recomendado registrar uma frase para chave (senha).
@@ -42,13 +46,7 @@ Copiar a informação abaixo:
 cat ~/.ssh/id_rsa.pub
 ```
 
-Agora no site da Digital Ocean em "Settings >> Aba Security >> Add SSH Key".
-
-No campo **SSH Key Content**, colar as informações do arquivo **id_rsa.pub** gerado na máquina local.
-
-E no campo **Name**, informe o "NOME DA CHAVE".
-
-Para confirmar clicar em "Add SSH Key".
+Acessar o site da Digital Ocean em "Settings >> Aba Security >> Add SSH Key" , no campo **SSH Key Content**, colar as informações do arquivo **id_rsa.pub** gerado na máquina local. E no campo **Name**, informe o "NOME DA CHAVE". Para confirmar clicar em "Add SSH Key".
 
 
 ### 2.3.1 Configurar arquivo bloco-variable.tf
