@@ -116,6 +116,8 @@ Esta etapa é necessária para que possamos configurar as máquinas com o Ansibl
 
 Executar o comando abaixo na máquina local para cada máquina virtual
 
+Exemplo com o ip da máquina labs-0:
+
 ```
 ssh root@ip-Do-labs-0
 
@@ -124,11 +126,16 @@ The authenticity of host '159.223.98.207 (159.223.98.207)' can't be established.
 ECDSA key fingerprint is SHA256:a/I1Mb0Tvs9ZlvF4w1Or/XjIPvDxsmzWFoBbr5toq0Q.
 Are you sure you want to continue connecting (yes/no/[fingerprint])?
 
+# Digite a frase da chave criada na fase do SSH KEY:
+Enter passphrase for key '/home/fabio/.ssh/id_rsa':
+
 # Estará logado na máquina virtual
 # No prompt da máquina virtual digite exit
 
 exit
 ```
+Repetir o processo para labs-1, labs-2, labs-3 e labs-4.
+
 
 ## 4.0 Configurar o Ambiente com Ansible
 
@@ -136,15 +143,19 @@ exit
 
 No arquivo de inventário informaos os IP's gerados pelo TerraForm.
 
-No arquivo **hosts >> inventory.txt** os IP´s foram dividios em 06 grupos.
+No arquivo **hosts >> inventory.txt** os IP´s foram dividios em 06 grupos. Conformer tabela abaixo:
 
 
-| Grupo | Hosts     | Total de Ips | Nome das Máquinas      | Instalação/Executar         | 
-|-------|-----------|--------------|------------------------|-----------------------------|
-|   1   | group_01  |      3       | labs-1, labs-2 e lab-3 |NVM e o do NODE              |  
-|   2   | group_02  |      4       | labs-0, labs-1, labs-2 | Docker, Docker-Compose      |
-|       |           |              | e labs-3               | e Git Clone                 |
-
+| Grupo | Hosts     | Total de Ips | Nome das Máquinas      | Instalação/Executar              | 
+|-------|-----------|--------------|------------------------|----------------------------------|
+|   1   | group_01  |      3       | labs-1, labs-2 e lab-3 | NVM e o do NODE                  |  
+|   2   | group_02  |      4       | labs-0, labs-1, labs-2 | Docker, Docker-Compose           |
+|       |           |              | e labs-3               | e Git Clone                      |
+|   3   | group_03  |      1       | labs-0                 | RabbitMq                         |  
+|   4   | group_04  |      1       | labs-1                 | Api-Gateway                      |  
+|   5   | group_05  |      1       | labs-2                 | MicroServiço micro-admin-backend |
+|   6   | group_06  |      1       | labs-3                 | MicroServiço Desafios            |  
+|   7   | group_07  |      1       | labs-4                 | MicroServiço Rankings            |  
 
 
 ### 4.1.2 Playbook
@@ -162,8 +173,9 @@ ansible-playbook ~/caminho/playbook/set-up-envinroment.yml -i ~/caminho/hosts/in
 
 ## RabbitMq
 
-1. Para gerenciar o RabbitMq acessar a página http://ip:15672/ com as credencias que constam no arquivo docker-compose.
+1. Para gerenciar o RabbitMq acessar a página http://ip-labs-0:15672/ com as credencias que constam no arquivo docker-compose.
 
-2. Criar um Virtual Hosts na opção "Admin >> Virtual Hosts >> Preencher o campo "Name" com o valor "smartranking" >> Add virtual host".
+2. Na página do RabbiMq criar um Virtual Hosts na opção:
+ "Admin >> Virtual Hosts >> Preencher o campo "Name" com o valor "smartranking" >> Add virtual host".
 
 
