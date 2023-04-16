@@ -4,7 +4,7 @@
 ## 1.0 Pré-Requisitos
 
 
-### 2.0 Provisionar Máquinas Virtuais
+## 2.0 Provisionar Máquinas Virtuais
 
 Utilizei a solução TerraForm para provisionar 04 máquina no serviço da Digital Ocean.
 
