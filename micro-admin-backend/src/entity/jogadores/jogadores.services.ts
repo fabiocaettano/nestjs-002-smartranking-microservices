@@ -27,7 +27,8 @@ export class JogadoresService {
       
       async consultarTodosJogadores(): Promise<Jogador[]> {
         try {
-        return await this.jogadorModel.find().populate("categoria").exec()
+        //return await this.jogadorModel.find().populate("categoria").exec()
+        return await this.jogadorModel.find().exec()
         }
         catch(error) {
             this.logger.error(`error: ${JSON.stringify(error.message)}`)
