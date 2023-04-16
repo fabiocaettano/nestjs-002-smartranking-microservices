@@ -106,7 +106,7 @@ labs-3: Executar o microserviço desafios;
 labs-4: Executar o microserviço ranking.
 
 
-### 3.0 Conexão SSH
+## 3.0 Conexão SSH
 
 Acessar cada máquina virtual gerada pelo TerraForm.
 
@@ -169,7 +169,7 @@ ansible-playbook ~/caminho/playbook/set-up-envinroment.yml -i ~/caminho/hosts/in
 
 
 
-## RabbitMq
+## 5.0 RabbitMq
 
 1. Para gerenciar o RabbitMq acessar a página http://ip-labs-0:15672/ com as credencias que constam no arquivo docker-compose.
 
