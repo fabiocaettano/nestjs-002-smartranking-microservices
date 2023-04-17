@@ -294,3 +294,29 @@ Iniciar o serviço nas máquinas labs-1, labs-2, labs-3 e labs-4.
 ```
 npm run start:dev
 ```
+
+## 11.0 Insomnia
+
+Configurar o BaseEnvironment, utilizando a opção Manage Environment.
+
+Informar o IP do api-gateway:
+
+``` json
+{
+	"url_api_gateway": "http://ip-labs-1:8080/"
+}
+``` 
+
+Nos endpoints ao invés de informarmos "http://ip:porta", colocamos um alias que no caso seria _uri_api_gateway.
+
+Exemplo:
+```
+{{ _.url_api_gateway }}api/v1/categorias
+```
+
+## 12 IDE Banco de Dados
+
+Para visualizar as requisições na base de dados:
+
+No aplicativo Robo 3T, informar o IP do micro serviço micro-admin-backend, com a porta 27017.
+
