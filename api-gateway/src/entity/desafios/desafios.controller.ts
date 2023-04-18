@@ -1,4 +1,51 @@
-import { Controller } from '@nestjs/common';
+import { Controller, Logger, Post, UsePipes, ValidationPipe, Body, Get, Query, Put, Param, Delete } from '@nestjs/common';
+import { CriarDesafioDto } from './dtos/criar-desafio.dto';
+import { Desafio } from './interfaces/desafio.interface';
+import { AtualizarDesafioDto } from './dtos/atualizar-desafio.dto';
+import { StatusDesafioValidationPipe } from './pipes/status-desafio-validation.pipes';
+import { AtribuirDesafioPartidaDto } from './dtos/atribuir-desafio.dto';
 
-@Controller('desafios')
-export class DesafiosController {}
+@Controller('api/v1/desafios')
+export class DesafiosController {
+
+    constructor(private readonly desafiosService : DesafiosService){}
+
+    private readonly logger = new Logger(DesafiosController.name)
+
+    @Post()
+    @UsePipes(ValidationPipe)
+    async criarDesafio(
+        @Body() criarDesafioDto : CriarDesafioDto) : Promise<Desafio>{
+            this.logger.log(`criarDesafio Dto: ${JSON.stringify(criarDesafioDto)}`)
+            return await this.desafiosService.criarDesafio(criarDesafioDto)
+    }
+    
+    @Get()
+    async consultarDesafios(
+        @Query('idJogador') _id: string): Promise<Array<Desafio>> {
+            return _id ? await this.desafiosService.consultarDesafioDeUmJogador(_id) 
+            : await this.desafiosService.consultarTodosDesafios()
+    }
+
+    @Put('/:desafio')
+    async atualizarDesafio(
+        @Body(StatusDesafioValidationPipe) atualizarDesafioDto: AtualizarDesafioDto,
+        @Param('desafio') _id: string): Promise<void>{
+        
+        await this.desafiosService.atualizarDesafio(_id, atualizarDesafioDto)
+
+    }
+
+    @Post('/:desafio/partida/')
+   async atribuirResultadoPartida(
+       @Body(ValidationPipe) atribuirDesafioPartidaDto: AtribuirDesafioPartidaDto,
+       @Param('desafio') _id: string): Promise<void> {
+        return await this.desafiosService.atribuirResultadoPartida(_id, atribuirDesafioPartidaDto)           
+   }
+
+   @Delete('/:_id')
+   async deletarDesafio(
+       @Param('_id') _id: string): Promise<void> {
+           await this.desafiosService.deletarDesafio(_id)
+    }
+}
