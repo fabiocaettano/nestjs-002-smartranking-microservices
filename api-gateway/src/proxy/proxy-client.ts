@@ -14,4 +14,14 @@ export  class ProxyClient {
             }
         })
     }
+
+    getClientProxyDesafiosInstance(): ClientProxy{
+        return ClientProxyFactory.create({
+            transport: Transport.RMQ,
+            options: {
+                urls: [process.env.RABBITMQ_URI],
+                queue: 'desafios',
+            }
+        })
+    }
 }
