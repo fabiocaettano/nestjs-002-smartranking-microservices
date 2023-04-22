@@ -1,0 +1,6 @@
+---
+- name: Instalar NestJS
+  hosts: group_01
+  tasks:
+    - name: Nests
+      command: "~/.nvm/versions/node/v14.21.3/bin/npm i -g @nestjs/cli"
