@@ -1,0 +1,34 @@
+# Install NVM e NODE
+[group_01]
+147.182.183.124
+147.182.190.204
+159.223.184.161
+64.227.29.103
+
+# Install Docker, Docker-Compose and run Git Clone
+[group_02]
+147.182.183.179
+147.182.183.124
+147.182.190.204
+159.223.184.161
+64.227.29.103
+
+# Run RabbitMq
+[group_03]
+147.182.183.179
+
+# Api Gateway
+[group_04]
+147.182.183.124
+
+# MicroService Admin Backend
+[group_05]
+147.182.190.204
+
+# MicroServices Desafios
+[group_06]
+159.223.184.161
+
+# MicroServices Ranking
+[group_07]
+64.227.29.103

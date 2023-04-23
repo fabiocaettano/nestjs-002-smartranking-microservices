@@ -1,0 +1,15 @@
+---
+- name: Check if folder existis
+  hosts: group_04
+  vars:
+    folder: ~/teste
+  tasks:
+    - name: Verify
+      become: yes
+      shell: |
+        if( ! [ -d {{folder}} ]);         
+        then 
+          mkdir teste
+          echo "verificado" > teste/file1.txt
+          echo "1+1" >> teste/file1.txt
+        fi;
