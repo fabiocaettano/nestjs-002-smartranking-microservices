@@ -13,15 +13,12 @@ terraform {
 }
 
 resource "digitalocean_droplet" "labs" {
-  count    = 4
+  count    = 5
   image    = var.imagem
   name     = "labs-${count.index}"
   region   = var.regiao
   size     = var.size
-  ssh_keys = [data.digitalocean_ssh_key.minha_chave.id]
-  tags = [
-    "kubedev"
-  ]
+  ssh_keys = [data.digitalocean_ssh_key.minha_chave.id]  
 }
 
 data "digitalocean_ssh_key" "minha_chave" {
