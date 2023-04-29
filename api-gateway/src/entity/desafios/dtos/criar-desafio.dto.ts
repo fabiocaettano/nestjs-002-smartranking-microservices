@@ -9,6 +9,9 @@ export class CriarDesafioDto {
     @IsNotEmpty()
     solicitante: Jogador;
 
+    @IsNotEmpty()
+    categoria: string;
+
     @IsArray()
     @ArrayMinSize(2)
     @ArrayMaxSize(2)
