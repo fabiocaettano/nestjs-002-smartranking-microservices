@@ -9,30 +9,62 @@ cd iac\terraform
 terraform apply
 ```
 
-O comando acima irá retornar 05 IP´s.
+2. Atualizar Inventário:
 
-| Droplet | Finalidade                         |
-| ------- | ---------------------------------- |
-| labs-0  |  RabbitMq                          |
-| labs-1  |  Api-Gateway                       |
-| labs-2  |  MicroServices Micro-Admin-Backend |
-| labs-3  |  MicroServices Desafios e Partida  | 
-| labs-4  |  MicroServices Ranking             |
+Arquivo inventory:
 
-2. Configuar o arquivo de inventário.
+```
+[group_01]
+ip do labs-1
+ip do labs-2
+ip do labs-3
+ip do labs-4
 
-| Droplet | group_01 | group_02 | group_03 | group_04 | group_05 | group_06 | group_07 |
-| ------- | -------- | -------- | -------- | -------- | -------- | -------- | -------- |
-| labs-0  |          |   Sim    |  Sim     |          |          |          |          | 
-| labs-1  |  Sim     |   Sim    |          |  Sim     |          |          |          | 
-| labs-2  |  Sim     |   Sim    |          |          | Sim      |          |          | 
-| labs-3  |  Sim     |   Sim    |          |          |          | Sim      |          | 
-| labs-4  |  Sim     |   Sim    |          |          |          |          | Sim      | 
+[group_02]
+ip do labs-0
+ip do labs-1
+ip do labs-2
+ip do labs-3
+ip do labs-4
 
-| Group | Ação            
-|   01  | Instalação NodeJs e NestJS 
-|   02  | Instalação Aptitude, Docker,Docker-compose
-|   02  | Clonar Repositório
-|   03  | Checkout na branch rabbitmq, e executar docker-compose para iniciar RabbitMq
-!   04  | Checkout na branch micro-admin-backend 
-|   04  | Executar o micro-serviço micro-admin- 
+[group_03]
+ip do labs-1
+
+[group_04]
+ip do labs-2
+
+[group_05]
+ip do labs-3
+
+[group_06]
+ip do labs-4
+```
+
+3. Configuração Ansible:
+
+```
+cat ansible/ansible.cfg
+
+[defaults]
+host_key_checkins = False
+ansible_user = root
+```
+
+4. Configurar variáveis de ambiente no arquivo `playbooy/setup.yml` nos hosts: **group_04** e **group_05**.
+
+
+
+5. Configurar ambiente:
+
+```
+cd iac\ansible
+ssh-agent bash
+ssh-add ~/.ssh/id_rsa
+ansible-playbook playbook/setup.yml -i hosts/inventory.txt 
+```
+
+6. Criar o Virtual Host "smartrankings" no site do RabbitMQ.
+
+7. Testar conexão do MongoDB, utilizando os IPs do labs-2, labs-3 e labs-4.
+
+

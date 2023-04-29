@@ -8,20 +8,6 @@ variable "token" {
   description = "Token de acesso a Digital Ocena"
 }
 
-variable "nome_droplet_1" {
-  default     = "laboratorio"
-  description = "nome da máquina virtual"
-}
-
-variable "nome_droplet_2" {
-  default     = "laboratorio"
-  description = "nome da máquina virtual"
-}
-
-variable "nome_droplet_3" {
-  default     = "laboratorio"
-  description = "nome da máquina virtual"
-}
 
 variable "regiao" {
   default     = "nyc1"
