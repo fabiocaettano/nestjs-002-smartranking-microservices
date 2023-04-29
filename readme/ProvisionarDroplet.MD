@@ -1,16 +1,29 @@
 # Provisionar Máquina
 
+Neste projeto foi utilizado o serviço da **Digital Ocean** para criar os Droplets.
+
+Os Droplets são máquinas virtuais.
+
+Os Droplets foram provisionados com a ferramenta **TerraForm**.
+
+Para criar uma máquina virtual no serviço da Digital Ocean é necessário as seguintes informações:
+- Chave SSH;
+- Token;
+- Regions;
+- Sizes;
+- Distro Images.
+
 ## 1.0 Pré-Requisito
 
-Terraform esteja instalado.
+Necessário instalação do Terraform.
 
 Dica de instalação:
 
 - Acessar o site [TerraForm](https://www.terraform.io/) para realizar o download.
 
-- Realizar o Download na opção Editions >> TerraForm CLI >> Download >> Linux >> Amd64
+- Realizar o Download na opção `Editions >> TerraForm CLI >> Download >> Linux >> Amd64`.
 
-- Instalar:
+Para nstalar:
 
 ``` bash
 sudo apt update
@@ -25,44 +38,33 @@ terraform --version
 
 ## 2.0 Variable.tf
 
-Neste projeto foi utilizado o serviço da **Digital Ocean** para criar os Droplets.
+### 2.0.1 Site Digital Ocean
 
-Os Droplets são máquinas virtuais.
+A **Chave SSH** é gerada no site da Digital Ocean, no seguinte caminho `Settings >> Aba Security >> Botão Add SSH Key`.
 
-Os Droplets foram provisionados com a ferramenta **TerraForm**.
+O **Token** é gerado no seguinte caminho  `Api >> Tokens >> Generate New Token`.
 
-Para criar uma máquina virtual no serviço da Digital Ocean é necessário as seguintes informações:
-- Chave SSH;
-- Token;
-- Regions;
-- Sizes;
-- Distro Images.
+Esass informações serão utilizadas no arquivo `iac >> terraform >> variable.tf` e inseridas na valor **default** do seu respectiva chave.
 
+### 2.0.2 Site Slug
 
-1. A **Chave SSH** é gerada no seguinte caminho `Settings >> Aba Security >> Botão Add SSH Key`;
-O nome da chave ssh será utilizado no arquivo variable.tf.
+A informação da **Region, Size e da Distro** são obtidas no [Site](https://slugs.do-api.dev/).
 
-2. O **Token** é gerado no seguinte caminho  `Menu Api >> Tokens >> Generate New Token`.
+Na aba `Regions` : **nyc1**
+Na aba  `Droplet Sizes` : **s-1vcpu-2gb**.
+Na aba `Distro Images` : **ubuntu-20-04-x64**.
 
-3. A informação da Region, Size e da Distro é obtida no [Site](https://slugs.do-api.dev/).
-
-A Region selecionada foi a **nyc1** na aba `Regions`.
-
-O Size selecionado foi o **s-1vcpu-2gb** na aba `Droplet Sizes`.
-
-A Distro Images seleciona foi a **ubuntu-20-04-x64** na aba `Distro Images`.
-
-
-Esass informações do item 1,2 e 3 serão utilizadas no arquivo `iac >> terraform >> variable.tf` e inseridas na valor **default** do seu respectiva chave.
-
+Esass informações serão utilizadas no arquivo `iac >> terraform >> variable.tf` e inseridas na valor **default** do seu respectiva chave.
 
 
 
 ## 3.0 Main.tf
 
-No arquivo `iac >> terraform >> main.tf` é responsável por realizar o provisionamento dos droplets.
+No arquivo `iac >> terraform >> main.tf` é responsável:
+- por realizar o provisionamento dos droplets;
+- registrar chave ssh e o token.
 
-Para mais detalhes utilizar o [site registry](https://registry.terraform.io/)
+Para mais detalhes obter no [site registry](https://registry.terraform.io/)
 
 No campo "Search" pesquise por digitalocean. Selecione digitalocean/digitalocean. Depois clicar em "Documentation"
 
