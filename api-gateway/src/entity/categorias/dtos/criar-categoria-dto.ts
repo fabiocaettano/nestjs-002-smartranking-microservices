@@ -5,8 +5,12 @@ export class CriarCategoriaDto{
 
     @IsString()
     @IsNotEmpty()
-    readonly categoria: string;
+    _id: string;
 
+    @IsString()
+    @IsNotEmpty()
+    categoria: string;
+    
     @IsString()
     @IsNotEmpty()
     descricao: string
@@ -14,4 +18,8 @@ export class CriarCategoriaDto{
     @IsArray()
     @ArrayMinSize(1)
     eventos: Array<Eventos>
+
+    setId(_id: string): void{
+        this._id = _id;       
+    }
 }

@@ -13,6 +13,7 @@ require('dotenv').config({ path: '.env' })
 export class JogadorController {  
 
     private logger = new Logger(JogadorController.name);
+    private idCategoria : string = "";
 
     constructor(
         private proxyClient: ProxyClient,
@@ -37,15 +38,26 @@ export class JogadorController {
     async criarJogador(
         @Body() criarJogadorDto: CriarJogadorDto
     ){        
-        this.logger.log(`criarJogadorDto: ${JSON.stringify(criarJogadorDto)}`);
+        this.logger.log(`Criar Jogador Dto 1: ${JSON.stringify(criarJogadorDto)}`);             
+        
+        //const _id : any = await this.clientAdminBackend.send('consultar-categoria-pela-descricao', criarJogadorDto.categoria).subscribe((response) => { return response._id; });             
+        const categoria = await this.clientAdminBackend.send('consultar-categoria-pela-descricao', criarJogadorDto.categoria)
+        .forEach(categoria => { 
+            //console.log(categoria)
+            this.idCategoria = categoria._id 
+        });
+        
+        //console.log(this.idCategoria);
+        
+        criarJogadorDto.categoria = this.idCategoria;
 
-        const categoria = await this.clientAdminBackend.send('consultar-categorias', criarJogadorDto.categoria);
+        console.log(criarJogadorDto);
 
-        if (categoria){
+        if (this.idCategoria){           
             this.clientAdminBackend.emit('criar-jogador', criarJogadorDto);
         }else{
             throw new BadRequestException(`Categoria não encontrada`);
-        }        
+        }
     }
 
     @Get('jogadores')
