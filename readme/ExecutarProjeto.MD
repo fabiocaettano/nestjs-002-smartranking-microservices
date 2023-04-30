@@ -1,6 +1,8 @@
 # Executar Projeto
 
-1. Provisionar máquinas:
+## 1.0 TerraForm
+
+### 1.1 Provisionar máquinas:
 
 ``` bash
 cd iac\terraform
@@ -8,7 +10,11 @@ terraform apply
 yes
 ```
 
-2. Distribuir os IPs gerados pelo Terraform no arquivo de inventário que fica em `ansible >> hosts >> inventory`. Conforme tabela abaixo :
+## 2.0 Ansible
+
+### 2.1 Arquivo De Inventário
+
+Distribuir os IPs gerados pelo Terraform no arquivo de inventário que fica em `ansible >> hosts >> inventory`. Conforme tabela abaixo :
 
 |   IP   |   Hosts                          |   Observação                      |
 | ------ | -------------------------------- |  -------------------------------- | 
@@ -19,7 +25,7 @@ yes
 | labs-4 | group_01 , group_02 , group_07   |  MicroServiço ranking             |
 
 
-3. Configuração Ansible:
+### 2.2 Configuração Ansible:
 
 ```
 touch ansible/ansible.cfg
@@ -29,7 +35,9 @@ echo "host_key_checkins = False" >> ansible/ansible.cfg
 echo "ansible_user = root" >> ansible/ansible.cfg
 ```
 
-4. Configurar variáveis de ambiente no arquivo `playbooy/setup.yml` 
+### 2.3 Configurar variáveis de ambiente 
+
+Arquivo `playbooy/setup.yml` 
 
 Nos hosts: **group_04** e **group_05**.
 
@@ -75,7 +83,9 @@ hosts: group_05
     mongodb_password: ""
 ```
 
-5. Configurar ambiente:
+### 2.4 Configurar ambiente:
+
+Executar comando:
 
 ```
 cd iac\ansible
@@ -84,10 +94,15 @@ ssh-add ~/.ssh/id_rsa
 ansible-playbook playbook/setup.yml -i hosts/inventory.txt -u root
 ```
 
-6. Acessar o site do RabbitMQ `http://ip-do-labs-0:15762`.
+## 3.0 RabbitMq
+
+### 3.1 Virtua. Host
+
+Acessar o site do RabbitMQ `http://ip-do-labs-0:15762`.
+
 E criar o um virtual host.
 
-7. Testar conexão do MongoDB.
+## 4.0 Testar conexão do MongoDB.
 
 utilizar os IPs do labs-2, labs-3 e labs-4.
 
