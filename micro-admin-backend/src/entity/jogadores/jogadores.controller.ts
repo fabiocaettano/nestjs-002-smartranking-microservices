@@ -13,14 +13,20 @@ export class JogadoresController {
 
     @EventPattern('criar-jogador')
     async criarJogador(@Payload() jogador: Jogador, @Ctx() context: RmqContext) {
+
         const channel = context.getChannelRef()
         const originalMsg = context.getMessage()
+
         try {
+    
             this.logger.log(`jogador: ${JSON.stringify(jogador)}`)
             await this.jogadoresService.criarJogador(jogador)
             await channel.ack(originalMsg)
-    } catch(error) {
+    
+        } catch(error) {
+    
             this.logger.log(`error: ${JSON.stringify(error.message)}`)
+    
             const filterAckError = ackErrors.filter(
                 ackError => error.message.includes(ackError))
     
