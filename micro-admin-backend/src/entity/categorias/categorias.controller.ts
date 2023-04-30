@@ -51,14 +51,29 @@ export class CategoriasController {
   }
 
   @MessagePattern('consultar-categoria-pelo-id')
-  async consultarCategoria(@Payload() categoria: string, @Ctx() context: RmqContext){
+  async consultarCategoriaPeloId(@Payload() _id: string, @Ctx() context: RmqContext){
     const channel = context.getChannelRef();
-    const originalMsg =  context.getMessage();
+    const originalMsg =  context.getMessage();    
 
-    console.log(categoria)
+    this.logger.log(`categoria: ${JSON.stringify(_id)}`);
 
     try{      
-        return await this.appService.consultarCategoriaPeloId(categoria);      
+        return await this.appService.consultarCategoriaPeloId(_id);      
+    }finally{
+      await channel.ack(originalMsg);
+    }    
+  }
+
+  
+  @MessagePattern('consultar-categoria-pela-descricao')
+  async consultarCategoriaPelaDescricao(@Payload() categoria: string, @Ctx() context: RmqContext){
+    const channel = context.getChannelRef();
+    const originalMsg =  context.getMessage();    
+
+    this.logger.log(`consultarCategoriaPelaDescricao: ${JSON.stringify(categoria)}`);
+
+    try{      
+        return await this.appService.consultarCategoriaPelaDescricao(categoria);      
     }finally{
       await channel.ack(originalMsg);
     }    

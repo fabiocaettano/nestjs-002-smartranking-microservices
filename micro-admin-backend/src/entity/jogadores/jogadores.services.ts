@@ -45,6 +45,16 @@ export class JogadoresService {
             throw new RpcException(error.message)
         }
       }
+
+      async consultarJogadorPelaCategoria(categoria: string): Promise<Jogador> {
+      
+        try {
+        return await this.jogadorModel.findOne({categoria}).populate("categoria").exec();
+        } catch (error) {
+            this.logger.error(`error: ${JSON.stringify(error.message)}`)
+            throw new RpcException(error.message)
+        }
+      }
       
       async atualizarJogador(_id: string, jogador: Jogador): Promise<void> {
         console.log(_id);

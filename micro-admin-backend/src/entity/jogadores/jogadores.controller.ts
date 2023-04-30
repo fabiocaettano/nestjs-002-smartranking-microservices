@@ -58,6 +58,22 @@ export class JogadoresController {
     }      
    }
 
+   @MessagePattern('consultar-jogador-pela-categoria')
+   async consultarJogadorPeloCategoria(@Payload() categorias : string, @Ctx() context: RmqContext) {
+    const channel = context.getChannelRef()
+    const originalMsg = context.getMessage()
+
+    this.logger.log(`originalMsg: ${originalMsg}`)
+    try {
+       
+       return await this.jogadoresService.consultarJogadorPelaCategoria(categorias);
+       
+    } finally {
+        await channel.ack(originalMsg)
+    }      
+   }
+
+
    @EventPattern('atualizar-jogador')
    async atualizarJogador(@Payload() data: any, @Ctx() context: RmqContext) {
     const channel = context.getChannelRef()

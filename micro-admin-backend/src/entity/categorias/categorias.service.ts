@@ -34,7 +34,17 @@ export class CategoriasService {
     }
   }
 
-  async consultarCategoriaPeloId(categoria: string) : Promise<Categoria>{
+  async consultarCategoriaPeloId(_id: string) : Promise<Categoria>{
+    try{
+      return await this.categoriaModel.findOne({_id}).exec();
+    }catch(error){
+      this.logger.error(`error: ${JSON.stringify(error.message)}`)
+      throw new RpcException(error.message);
+    }
+
+  }
+
+  async consultarCategoriaPelaDescricao(categoria: string) : Promise<Categoria>{
     try{
       return await this.categoriaModel.findOne({categoria}).exec();
     }catch(error){
