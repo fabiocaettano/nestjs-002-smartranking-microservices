@@ -7,7 +7,7 @@
 ``` bash
 cd iac\terraform
 terraform apply
-yes
+Enter a value: yes
 ```
 
 ## 2.0 Ansible
@@ -31,8 +31,7 @@ Distribuir os IPs gerados pelo Terraform no arquivo de inventário que fica em `
 touch ansible/ansible.cfg
 
 echo [defaults] > ansible/ansible.cfg
-echo "host_key_checkins = False" >> ansible/ansible.cfg
-echo "ansible_user = root" >> ansible/ansible.cfg
+echo "host_key_checkins=False" >> ansible/ansible.cfg
 ```
 
 ### 2.3 Configurar variáveis de ambiente 
