@@ -130,14 +130,36 @@ ansible-playbook playbook/setup.yml -i hosts/inventory.txt -u root
 
 ## 3.0 RabbitMq
 
-### 3.1 Virtua. Host
+### 3.1 Virtual Host
 
 Acessar o site do RabbitMQ `http://ip-do-labs-0:15762`.
 
 Criar o **virtual host** na opção aba `Admin >> Virtual Hosts >> Add a new virtual host >>`, no campo `Name` preencher com o seguinte valor: **smartranking**.
 
-## 4.0 Testar conexão do MongoDB.
+## 4.0 Conexão do MongoDB.
 
-utilizar os IPs do labs-2, labs-3 e labs-4.
+Acessar a máquina virtual:
 
+```
+ssh-agent bash
+ssh-add ~/.ssh/id_rsa
+ssh root@ip-do-labs-microservico-0
+```
+
+Acessar container:
+
+```
+docker container ls
+docker exec -it idDoContainer /bin/bash
+```
+
+No container:
+
+```
+mongosh -u userInformadoNoDockerCompose -p passwordInformadoNoDockerCompose
+
+use smartranking_admin;
+
+db.createUser({user: "userMongoDb", pwd: "passwordMongoDb", roles: [{role: "readWrite", db: "smartranking_admin"}]});
+```
 
