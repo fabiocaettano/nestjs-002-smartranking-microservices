@@ -7,7 +7,10 @@ require('dotenv').config({ path: '.env' })
 
 @Module({
   imports: [
-    MongooseModule.forRoot(process.env.MONGO_URI),    
+
+    MongooseModule.forRoot(process.env.MONGO_URI,{
+      useNewUrlParser: true,
+      useUnifiedTopology: true}),    
     CategoriasModule,
     JogadoresModule
   ],
