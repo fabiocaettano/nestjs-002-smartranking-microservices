@@ -15,8 +15,6 @@ Enter a value: yes
 Resultado:
 
 ```
-Apply complete! Resources: 5 added, 0 changed, 0 destroyed.
-
 Outputs:
 
 droplet_api = {
@@ -36,7 +34,11 @@ droplet_rabbitmq = {
 
 ### 2.1 Arquivo De Inventário
 
-Distribuir os IPs gerados pelo Terraform no arquivo de inventário que fica em `ansible >> hosts >> inventory`. Conforme tabela abaixo :
+Distribuir os IPs gerados pelo Terraform no arquivo de inventário do Ansible.
+
+O arquivo está no diretório `ansible >> hosts >> inventory.ini`. 
+
+Configurar conforme tabela abaixo :
 
 |   IP                |   Hosts                          |   Observação                      |
 | ------------------- | -------------------------------- |  -------------------------------- | 
