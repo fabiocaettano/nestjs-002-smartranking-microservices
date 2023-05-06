@@ -5,4 +5,4 @@ import { ProxyClient } from "./proxy-client";
     providers: [ProxyClient],
     exports: [ProxyClient]
 })
-export class ProxyModule {}
+export class ProxyRmqModule {}

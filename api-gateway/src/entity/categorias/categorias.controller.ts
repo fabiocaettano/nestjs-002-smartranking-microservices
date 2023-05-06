@@ -40,9 +40,18 @@ export class CategoriaController {
         return this.clientAdminBackend.send('consultar-categorias','');       
     }        
 
-    @Get('categorias/:categoria')
-    consultaCategoriaPeloId(@Param('categoria') categoria : string): Observable<any>{        
-        return this.clientAdminBackend.send('consultar-categoria-pelo-id',categoria);       
+    @Get('categorias/:_id/id')
+    consultaCategoriaPeloId(@Param('_id') _id : string): Observable<any>{        
+        //return this.clientAdminBackend.send('consultar-categoria-pelo-id',categoria);       
+        const result = this.clientAdminBackend.send('consultar-categoria-pelo-id',_id);       
+        this.logger.log(`result categoria id: ${result.forEach( item => item._id)}`)
+        return result;
+    }
+
+    @Get('categorias/:categoria/categoria')
+    consultaCategoriaPelaDescricao(@Param('categoria') categoria : string): Observable<any>{        
+        //return this.clientAdminBackend.send('consultar-categoria-pelo-id',categoria);       
+        return this.clientAdminBackend.send('consultar-categoria-pela-descricao',categoria);       
     }
 
     @Put('categorias/:categoria')
