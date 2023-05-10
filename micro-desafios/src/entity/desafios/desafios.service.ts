@@ -2,7 +2,7 @@ import { Injectable, Logger} from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Desafio } from './interfaces/desafio.interface';
 import { Model } from 'mongoose';
-import { DesafioStatus } from './desafio-status.enum';
+import { StatusDesafio } from '../status/status-desafios.enum';
 import { RpcException } from '@nestjs/microservices';
 
 @Injectable()
@@ -22,7 +22,7 @@ export class DesafiosService {
                 Quando um desafio for criado, definimos o status 
                 desafio como pendente
             */
-            desafioCriado.status = DesafioStatus.PENDENTE
+            desafioCriado.status = StatusDesafio.PENDENTE
             this.logger.log(`desafioCriado: ${JSON.stringify(desafioCriado)}`)
             return await desafioCriado.save()
         } catch (error) {
@@ -85,7 +85,7 @@ export class DesafiosService {
                 Quando uma partida for registrada por um usuário, mudaremos o 
                 status do desafio para realizado
             */
-            desafio.status = DesafioStatus.REALIZADO
+            desafio.status = StatusDesafio.REALIZADO
             desafio.partida = idPartida
             await this.desafioModel.findOneAndUpdate({_id: desafio._id},{$set: desafio}).exec()
         } catch (error) {
@@ -101,7 +101,7 @@ export class DesafiosService {
                 Realizaremos a deleção lógica do desafio, modificando seu status para
                 CANCELADO
             */
-            desafio.status = DesafioStatus.CANCELADO
+            desafio.status = StatusDesafio.CANCELADO
             this.logger.log(`desafio: ${JSON.stringify(desafio)}`)
             await this.desafioModel.findOneAndUpdate({_id},{$set: desafio}).exec() 
         } catch (error) {
