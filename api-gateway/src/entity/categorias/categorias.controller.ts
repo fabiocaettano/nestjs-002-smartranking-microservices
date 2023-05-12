@@ -32,6 +32,7 @@ export class CategoriaController {
     criarCategoria(
         @Body() criarCategoriaDto: CriarCategoriaDto
     ){  
+        
         this.clientAdminBackend.emit('criar_categoria', criarCategoriaDto);
     }
 

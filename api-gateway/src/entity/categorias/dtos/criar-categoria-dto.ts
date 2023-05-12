@@ -3,9 +3,9 @@ import { Eventos } from "src/entity/eventos/interfaces/eventos.interface";
 
 export class CriarCategoriaDto{
 
-    @IsString()
+    /*@IsString()
     @IsNotEmpty()
-    _id: string;
+    _id: string;*/
 
     @IsString()
     @IsNotEmpty()
@@ -19,7 +19,7 @@ export class CriarCategoriaDto{
     @ArrayMinSize(1)
     eventos: Array<Eventos>
 
-    setId(_id: string): void{
+    /*setId(_id: string): void{
         this._id = _id;       
-    }
+    }*/
 }
