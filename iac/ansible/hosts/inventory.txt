@@ -1,34 +1,80 @@
 # Install NVM e NODE
 [group_01]
- 67.207.89.29
- 161.35.5.35
- 161.35.5.128
- 161.35.9.254
+0.0.0.2
+0.0.0.3
+0.0.0.4
+0.0.0.5
 
 # Install Docker, Docker-Compose and run Git Clone
 [group_02]
- 161.35.5.188
- 67.207.89.29
- 161.35.5.35
- 161.35.5.128
- 161.35.9.254
+0.0.0.1
+0.0.0.2
+0.0.0.3
+0.0.0.4
+0.0.0.5
+[group_02:vars]
+message="Droplet Digital Ocean"
 
 # Run RabbitMq
 [group_03]
-67.207.89.29
+0.0.0.1
+[group_03:vars]
+folder=nestjs-002-smartranking-microservices
+branch=rabbitmq
 
 # Api Gateway
 [group_04]
-161.35.5.35
+0.0.0.2
+[group_04:vars]
+folder="nestjs-002-smartranking-microservices"
+branch="api-gateway"
+rabbitmq_user=["Informar user RabbitMq"]
+rabbitmq_password=["Informar password RabbitMq"]
+rabbitmq_ip=0.0.0.1
+rabbitmq_port=5672
+rabbitmq_virtual_host="smartranking"
+AWS_BUCKET="smartranking"
+AWS_ENDPOINT="https://nyc3.digitaloceanspaces.com"
+AWS_URL="https://smartranking.nyc3.digitaloceanspaces.com"
+AWS_REGION="us-east-1"
+AWS_SPACES_KEY=["Obter no site da Digital Ocean"]
+AWS_SPACES_SECRET=["Obter no site da Digital Ocean"]
 
 # MicroService Admin Backend
 [group_05]
-161.35.5.128
+0.0.0.3
+[group_05:vars]
+folder="nestjs-002-smartranking-microservices"
+branch="micro-admin-backend"
+rabbitmq_user=["User RabbitMq"]
+rabbitmq_password=["Password RabbitMq"]
+rabbitmq_ip=0.0.0.1
+rabbitmq_port=5672
+rabbitmq_virtual_host="smartranking"
+mongodb_db_name="smartranking_admin"
+mongodb_ip=0.0.0.3
+mongodb_port=27017
+mongodb_user=["User informado no Docker-Composer"]
+mongodb_password=["Password informado no Docker-Composer"]
 
 # MicroServices Desafios
 [group_06]
-161.35.9.254
+0.0.0.4
+[group_06:vars]
+folder="nestjs-002-smartranking-microservices"
+branch="micro-desafios"
+rabbitmq_user=["User RabbitMq"]
+rabbitmq_password=["Password RabbitMq"]
+rabbitmq_ip=0.0.0.1
+rabbitmq_port=5672
+rabbitmq_virtual_host="smartranking"
+mongodb_db_name="smartranking_desafios"
+mongodb_ip=0.0.0.4
+mongodb_port=27017
+mongodb_user=["User informado no Docker-Composer"]
+mongodb_password=["Password informado no Docker-Composer"]
 
 # MicroServices Ranking
 [group_07]
-64.227.29.103
+137.184.25.170
+                  

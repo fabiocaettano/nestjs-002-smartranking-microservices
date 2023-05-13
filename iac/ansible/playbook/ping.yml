@@ -1,10 +1,12 @@
 ---
 - name: Ping
   hosts: group_02
+  gather_facts: True
   tasks:
     - name: Ping my hosts
       ansible.builtin.ping:
 
     - name: Print message
       ansible.builtin.debug:
-        msg: Hello world
+        msg: 
+          - "{{ message }}"
