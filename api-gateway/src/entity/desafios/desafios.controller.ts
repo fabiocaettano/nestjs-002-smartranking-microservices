@@ -8,6 +8,7 @@ import { Partida } from '../partidas/interfaces/partida.interface';
 import { ProxyClient } from 'src/proxy/proxy-client';
 import { StatusDesafioValidationPipe } from './pipes/status-desafio-validation.pipes';
 import { AtribuirDesafioPartidaDto } from './dtos/atribuir-desafio.dto';
+import { Observable } from 'rxjs';
 
 @Controller('api/v1/desafios')
 export class DesafiosController {
@@ -16,6 +17,9 @@ export class DesafiosController {
       private proxyClient: ProxyClient) {}
 
     private readonly logger = new Logger(DesafiosController.name)
+    private idCategoria : string = "";
+    private contagemJogador : number = 0;
+    private idJogadorDefensor : string = "";
 
     /*
         Criamos um proxy específico para lidar com o microservice
@@ -29,57 +33,61 @@ export class DesafiosController {
     @UsePipes(ValidationPipe)
     async criarDesafio(
         @Body() criarDesafioDto: CriarDesafioDto) {
-            this.logger.log(`criarDesafioDto: ${JSON.stringify(criarDesafioDto)}`)
-          
-            /*
-                Validações relacionadas ao array de jogadores que participam
-                do desafio
-            */
-            const jogadores: Jogador[] = await this.clientAdminBackend.send('consultar-jogadores', '').toPromise()                  
-
-            criarDesafioDto.jogadores.map(jogadorDto => {
-                const jogadorFilter: Jogador[] = jogadores.filter( jogador => jogador._id == jogadorDto._id )
-    
-                this.logger.log(`jogadorFilter: ${JSON.stringify(jogadorFilter)}`)  
-
-                /*
-                    Verificamos se os jogadores do desafio estão cadastrados
-                */
-                if (jogadorFilter.length == 0) {
-                    throw new BadRequestException(`O id ${jogadorDto._id} não é um jogador!`)
-                }
-                
-                /*
-                    Verificar se os jogadores fazem parte da categoria informada no
-                    desafio 
-                */
-                if (jogadorFilter[0].categorias != criarDesafioDto.categoria) {
-
-                    throw new BadRequestException(`O jogador ${jogadorFilter[0]._id} não faz parte da categoria informada!`)
-
-                }
             
-            })
+            this.logger.log(`criarDesafioDto: ${JSON.stringify(criarDesafioDto)}`)                   
 
             /*
-                Verificamos se o solicitante é um jogador da partida
+                Atualizar idCategoria 
             */
-            const solicitanteEhJogadorDaPartida: Jogador[] = criarDesafioDto.jogadores.filter(jogador => jogador._id == criarDesafioDto.solicitante._id )
+            const categoria = await this.clientAdminBackend.send('consultar-categoria-pela-descricao', criarDesafioDto.categoria)
+            .forEach(categoria => { 
+                //console.log(categoria)
+                this.idCategoria = categoria._id 
+            });
 
-            this.logger.log(`solicitanteEhJogadorDaPartida: ${JSON.stringify(solicitanteEhJogadorDaPartida)}`)
+            criarDesafioDto.categoria = this.idCategoria;           
 
-            if(solicitanteEhJogadorDaPartida.length == 0) {
-                throw new BadRequestException(`O solicitante deve ser um jogador da partida!`)
+             /*
+                Verificamos se os jogadores do desafio estão cadastrados
+            */
+
+            await this.clientAdminBackend.send('contagem-jogador-pelo-id', criarDesafioDto.jogadores[0])
+            .forEach(contagem => {
+                this.contagemJogador = contagem
+            })           
+    
+            if (this.contagemJogador != 1){
+                throw new BadRequestException(`O jogador ${criarDesafioDto.jogadores[0]._id} não esta cadastrado !`);
+            }                
+
+            this.contagemJogador = 0;
+
+            await this.clientAdminBackend.send('contagem-jogador-pelo-id', criarDesafioDto.jogadores[1])
+            .forEach(contagem => {
+                this.contagemJogador = contagem
+            })           
+
+            if (this.contagemJogador != 1){
+                throw new BadRequestException(`O jogador ${criarDesafioDto.jogadores[1]._id} não esta cadastrado !`);
+            }           
+
+            /*
+                Jogadores devem ser direntes
+            */
+            if(criarDesafioDto.jogadores[0]._id === criarDesafioDto.jogadores[1]._id){
+                throw new BadRequestException(`O jogador não pode desafiar a si mesmo.`)
             }
 
             /*
-                Verificamos se a categoria está cadastrada
+                Verificando se o solicitante é um jogador da partida
             */
-            const categoria = await this.clientAdminBackend.send('consultar-categorias', criarDesafioDto.categoria).toPromise()
+            const solicitanteFazParteDaPartida = criarDesafioDto.jogadores.filter(jogador => jogador._id );
+            this.logger.log(`Solicitante Faz Parte da Partida ${solicitanteFazParteDaPartida}`);
+            /*
+                Verificamos se a categoria está cadastrada
+            */           
 
-            this.logger.log(`categoria: ${JSON.stringify(categoria)}`)
-
-            if (!categoria) {
+            if (!this.idCategoria) {
                 throw new BadRequestException(`Categoria informada não existe!`)
             }
 

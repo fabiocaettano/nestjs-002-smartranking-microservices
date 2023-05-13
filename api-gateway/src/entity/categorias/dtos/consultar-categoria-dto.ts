@@ -5,5 +5,5 @@ export class ConsultarCategoriaDto{
 
     @IsString()
     @IsNotEmpty()
-    categorias: string;
+    categoria: string;
 }
