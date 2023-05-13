@@ -8,6 +8,7 @@ import { ConfigService } from '@nestjs/config';
 //urls: [process.env.RABBITMQ_URI],
 
 const logger = new Logger('Main');
+
 const configService = new ConfigService();
 
 async function bootstrap() {
@@ -19,6 +20,8 @@ async function bootstrap() {
         queue: 'admin-backend',
       },
   });    
+
   await app.listen().then(() => logger.log('Microservice is listening'));  
+
 }
 bootstrap();

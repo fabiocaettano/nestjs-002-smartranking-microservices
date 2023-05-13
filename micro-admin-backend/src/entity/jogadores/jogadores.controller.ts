@@ -116,4 +116,17 @@ export class JogadoresController {
               }
         }
     }
+
+   @MessagePattern('contagem-jogador-pelo-id')
+   async constagemJogadorPeloId(@Payload() _id: string, @Ctx() context: RmqContext) {
+    const channel = context.getChannelRef()
+    const originalMsg = context.getMessage()
+    try {
+       
+       return await this.jogadoresService.contagemJogadorPeloId(_id);
+       
+    } finally {
+        await channel.ack(originalMsg)
+    }      
+   }
 }

@@ -40,6 +40,7 @@ export class JogadoresService {
       
         try {
         return await this.jogadorModel.findOne({_id}).populate("categoria").exec();
+        
         } catch (error) {
             this.logger.error(`error: ${JSON.stringify(error.message)}`)
             throw new RpcException(error.message)
@@ -79,5 +80,20 @@ export class JogadoresService {
             throw new RpcException(error.message)
         }
       }
+
+      async contagemJogadorPeloId(_id: string): Promise<number> {
+      
+        try {
+
+        const number = await this.jogadorModel.countDocuments({_id: _id});
+
+        return number;
+        
+        } catch (error) {
+            this.logger.error(`error: ${JSON.stringify(error.message)}`)
+            throw new RpcException(error.message)
+        }
+      }
+
 
 }
