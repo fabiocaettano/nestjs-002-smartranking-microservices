@@ -98,7 +98,7 @@ Acessar o site do RabbitMQ `http://0.0.0.1:15762`.
 
 Criar o **virtual host** na opção aba `Admin >> Virtual Hosts >> Add a new virtual host >>`, no campo `Name` preencher com o seguinte valor: **smartranking**.
 
-## 4.0 Conexão do MongoDB.
+## 4.0 Conexão do MongoDB
 
 ### 4.1 Base de Dados Micro-Admin-Backend
 
