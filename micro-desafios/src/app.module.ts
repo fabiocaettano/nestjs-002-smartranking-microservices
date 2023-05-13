@@ -1,5 +1,5 @@
 import { Module } from '@nestjs/common';
-import { DesafiosModule } from './desafios/desafios.module';
+import { DesafiosModule } from './entity/desafios/desafios.module';
 
 @Module({
   imports: [DesafiosModule],
