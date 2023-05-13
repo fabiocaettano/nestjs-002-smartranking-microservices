@@ -15,7 +15,7 @@ async function bootstrap() {
     options: {
       urls: [configService.get<string>('RABBITMQ_URI')],
       noAck: false,
-      queue: 'admin-backend',
+      queue: 'desafios',
     },
   });    
 

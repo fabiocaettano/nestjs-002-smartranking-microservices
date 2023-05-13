@@ -18,8 +18,7 @@ export class DesafiosService {
 
         private readonly logger = new Logger(DesafiosService.name)
 
-        private clientNotificacoes = 
-        this.proxyClient.getClientProxyNotificacoesInstance();
+        //private clientNotificacoes =  this.proxyClient.getClientProxyNotificacoesInstance();
 
         async criarDesafio(desafio: Desafio): Promise<Desafio> {
             try {
@@ -37,9 +36,9 @@ export class DesafiosService {
                 */
                 await desafioCriado.save()
 
-                return await this.clientNotificacoes
-                .emit('notificacao-novo-desafio', desafio)
-                .toPromise()
+                //return await this.clientNotificacoes.emit('notificacao-novo-desafio', desafio).toPromise()
+
+                return desafioCriado;
 
             } catch (error) {
                 this.logger.error(`error: ${JSON.stringify(error.message)}`)
