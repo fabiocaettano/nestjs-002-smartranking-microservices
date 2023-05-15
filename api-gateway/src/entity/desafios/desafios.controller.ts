@@ -9,6 +9,7 @@ import { ProxyClient } from 'src/proxy/proxy-client';
 import { StatusDesafioValidationPipe } from './pipes/status-desafio-validation.pipes';
 import { AtribuirDesafioPartidaDto } from './dtos/atribuir-desafio.dto';
 import { Observable } from 'rxjs';
+import { CriarJogadorDto } from '../jogadores/dtos/cria-jogador.dto';
 
 @Controller('api/v1/desafios')
 export class DesafiosController {
@@ -18,8 +19,8 @@ export class DesafiosController {
 
     private readonly logger = new Logger(DesafiosController.name)
     private idCategoria : string = "";
-    private contagemJogador : number = 0;
-    private idJogadorDefensor : string = "";
+    private contagemJogador : number = 0;    
+    private _id : string = "";
 
     /*
         Criamos um proxy específico para lidar com o microservice
@@ -51,38 +52,48 @@ export class DesafiosController {
                 Verificamos se os jogadores do desafio estão cadastrados
             */
 
-            await this.clientAdminBackend.send('contagem-jogador-pelo-id', criarDesafioDto.jogadores[0])
+            
+            this._id = criarDesafioDto.solicitante;    
+            await this.clientAdminBackend.send('contagem-jogador-pelo-id', this._id)
             .forEach(contagem => {
                 this.contagemJogador = contagem
             })           
     
             if (this.contagemJogador != 1){
-                throw new BadRequestException(`O jogador ${criarDesafioDto.jogadores[0]._id} não esta cadastrado !`);
+                throw new BadRequestException(`O jogador ${criarDesafioDto.solicitante} não esta cadastrado !`);
             }                
 
             this.contagemJogador = 0;
-
-            await this.clientAdminBackend.send('contagem-jogador-pelo-id', criarDesafioDto.jogadores[1])
+            this._id = criarDesafioDto.adversario;    
+            await this.clientAdminBackend.send('contagem-jogador-pelo-id', this._id)
             .forEach(contagem => {
                 this.contagemJogador = contagem
             })           
 
             if (this.contagemJogador != 1){
-                throw new BadRequestException(`O jogador ${criarDesafioDto.jogadores[1]._id} não esta cadastrado !`);
+                throw new BadRequestException(`O jogador ${criarDesafioDto.adversario} não esta cadastrado !`);
             }           
 
             /*
                 Jogadores devem ser direntes
             */
-            if(criarDesafioDto.jogadores[0]._id === criarDesafioDto.jogadores[1]._id){
+            if(criarDesafioDto.solicitante === criarDesafioDto.adversario){
                 throw new BadRequestException(`O jogador não pode desafiar a si mesmo.`)
             }
 
             /*
                 Verificando se o solicitante é um jogador da partida
             */
-            const solicitanteFazParteDaPartida = criarDesafioDto.jogadores.filter(jogador => jogador._id );
-            this.logger.log(`Solicitante Faz Parte da Partida ${solicitanteFazParteDaPartida}`);
+            /*
+            const verificarJogador = new VerificarJogador();
+            verificarJogador.jogador._id = criarDesafioDto.solicitante._id
+
+            
+            if (!(verificarJogador.jogadores[0]._id == criarDesafioDto.jogadores[0]._id) && !(verificarJogador.jogadores[0]._id == criarDesafioDto.jogadores[1]._id)){
+                throw new BadRequestException(`O Solicitante deve fazer parte da partida.`)
+            }*/         
+
+
             /*
                 Verificamos se a categoria está cadastrada
             */           
@@ -198,11 +209,11 @@ export class DesafiosController {
         /*
             Verificamos se o jogador informado faz parte do desafio
         */
-       if (!desafio.jogadores.includes(atribuirDesafioPartidaDto.def)) {
+        /*if (!desafio.jogadores.includes(atribuirDesafioPartidaDto.def)) {
 
             throw new BadRequestException(`O jogador vencedor da partida deve fazer parte do desafio!`)
 
-       }
+        }*/
 
         /*
             Criamos nosso objeto partida, que é formado pelas
@@ -213,7 +224,7 @@ export class DesafiosController {
         partida.categoria = desafio.categoria
         partida.def = atribuirDesafioPartidaDto.def
         partida.desafio = _id
-        partida.jogadores = desafio.jogadores
+        //partida.jogadores = desafio.jogadores
         partida.resultado = atribuirDesafioPartidaDto.resultado
 
         /*

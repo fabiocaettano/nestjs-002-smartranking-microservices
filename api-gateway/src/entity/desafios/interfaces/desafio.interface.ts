@@ -6,10 +6,10 @@ export interface Desafio{
     dataHoraDesafio: Date
     status: StatusDesafio    
     dataHoraSolicitada: Date
-    dataHoraResposta: Date
-    solicitante: Jogador
+    dataHoraResposta: Date    
     categoria: string
     partida?: string
-    jogadores: Array<Jogador>
+    solicitante: string
+    adversario: string
     
 }

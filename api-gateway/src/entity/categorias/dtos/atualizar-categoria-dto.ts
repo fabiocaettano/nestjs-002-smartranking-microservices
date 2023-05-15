@@ -5,6 +5,10 @@ export class AtualizarCategoriaDto {
 
     @IsString()
     @IsOptional()
+    categoria: string;
+
+    @IsString()
+    @IsOptional()
     descricao: string;
 
     @IsArray()
