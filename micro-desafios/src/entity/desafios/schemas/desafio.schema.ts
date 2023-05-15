@@ -7,12 +7,13 @@ export const DesafioSchema = new mongoose.Schema({
     dataHoraResposta: { type: Date },
     //solicitante: {type: mongoose.Schema.Types.ObjectId, ref: "Jogador"},
     solicitante: {type: mongoose.Schema.Types.ObjectId},
+    adversario: {type: mongoose.Schema.Types.ObjectId},
     //categoria: {type: String },
     categoria: {type: mongoose.Schema.Types.ObjectId},
-    jogadores: [{
-        type: mongoose.Schema.Types.ObjectId,
-        //ref: "Jogador"
-    }],
+    //jogadores: [ 
+    //    {type: mongoose.Schema.Types.ObjectId},
+    //    {type: Boolean}
+    //],
     partida: {
         type: mongoose.Schema.Types.ObjectId, 
         ref: "Partida" 

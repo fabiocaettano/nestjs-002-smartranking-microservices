@@ -6,10 +6,11 @@ export interface Desafio extends Document {
     dataHoraDesafio: Date
     status: DesafioStatus
     dataHoraSolicitacao: Date
-    dataHoraResposta?: Date
-    solicitante: string
+    dataHoraResposta?: Date    
     categoria: string
+    solicitante: string
+    adversario: string
     partida?: string
-    jogadores: string[]
+    
     
 }
